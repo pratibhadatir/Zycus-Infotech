@@ -1,0 +1,209 @@
+public class VLSF_UpdateMigratedCases implements Database.Batchable<sObject>{
+    Public Integer counterForErrorMessages=0;
+    public Database.QueryLocator start(Database.BatchableContext bc){
+        
+        Migration_Field_Mapping__mdt meta = Migration_Field_Mapping__mdt.getInstance('CALENDAR_YEAR'); 
+        Migration_Field_Mapping__mdt meta2 = Migration_Field_Mapping__mdt.getInstance('Last_N_Days'); 
+        
+        Integer year = Integer.valueOf(meta.VLSF_Calender_Year__c);
+        Integer days = Integer.valueOf(meta2.LAST_N_Days__c);
+        Date dt = Date.today().addDays(-days);
+        return Database.getQueryLocator([SELECT Id, Name, OwnerId, ConnectionReceivedId, CreatedDate, ConnectionSentId, BMCServiceDesk__ACApprovalStatus__c, BMCServiceDesk__ACSeverity__c, BMCServiceDesk__Actual_Outage_Time_Hours__c, BMCServiceDesk__Additional_email_information__c, BMCServiceDesk__AllTaskCloseController__c, BMCServiceDesk__Approved__c, BMCServiceDesk__BLANK__c, BMCServiceDesk__Category_ID__c, BMCServiceDesk__Client_Account__c, BMCServiceDesk__Client_Manager__c, BMCServiceDesk__Client_Name__c, BMCServiceDesk__Client_Phone__c, BMCServiceDesk__Client_Type__c, BMCServiceDesk__Clock_Status__c, BMCServiceDesk__Closed_By__c, BMCServiceDesk__ClosureCategory__c, BMCServiceDesk__Compliant__c, BMCServiceDesk__Compliments_and_Complaints__c, BMCServiceDesk__Due_Date_Progress__c, BMCServiceDesk__EmailServiceAddress__c, BMCServiceDesk__Event_ID__c, BMCServiceDesk__FKAccount__c, BMCServiceDesk__FKBMC_BaseElement__c, BMCServiceDesk__FKBroadcast__c, BMCServiceDesk__FKBusinessService__c, BMCServiceDesk__FKCategory__c, BMCServiceDesk__FKClient__c, BMCServiceDesk__FKClosedBy__c, BMCServiceDesk__FKContact__c, BMCServiceDesk__FKImpact__c, BMCServiceDesk__FKIncident__c, BMCServiceDesk__FKLead__c, BMCServiceDesk__FKOpenBy__c, BMCServiceDesk__FKPriority__c, BMCServiceDesk__FKRequestDefinition__c, BMCServiceDesk__FKRequestDetail__c, BMCServiceDesk__FKServiceOffering__c, BMCServiceDesk__FKStatus__c, BMCServiceDesk__FKTemplate__c, BMCServiceDesk__FKUrgency__c, BMCServiceDesk__Feedback_Last_Submitted__c, BMCServiceDesk__Feedback__c, BMCServiceDesk__Impact_Id__c, BMCServiceDesk__IncidentType__c, BMCServiceDesk__Is_New_Record__c, BMCServiceDesk__Launch_console__c, BMCServiceDesk__New_Incident__c, BMCServiceDesk__PreferredContactMethod__c, BMCServiceDesk__Priority_ID__c, BMCServiceDesk__Recurrence__c, BMCServiceDesk__RecurringParentRecordId__c, BMCServiceDesk__RequestDetailCloneId__c, BMCServiceDesk__ServiceRequest__c, BMCServiceDesk__Service_Request_Title__c, BMCServiceDesk__ShowDueDateDialog__c, BMCServiceDesk__StatusChangeDate__c, BMCServiceDesk__Status_ID__c, BMCServiceDesk__Task_Closed_Controller__c, BMCServiceDesk__TemplateAlreadyApplied__c, BMCServiceDesk__TemplateName__c, BMCServiceDesk__Type__c, BMCServiceDesk__TimeSpentInCurrentStatus__c, BMCServiceDesk__Time_Remaining_Percentage__c, BMCServiceDesk__TotalWorkTime__c, BMCServiceDesk__UpdateCount__c, BMCServiceDesk__Urgency_ID__c, BMCServiceDesk__VIP_Client__c, BMCServiceDesk__WorkflowController__c, BMCServiceDesk__actualDuration__c, BMCServiceDesk__actualOutageDuration__c, BMCServiceDesk__call__c, BMCServiceDesk__clientEmail__c, BMCServiceDesk__clientFirstName__c, BMCServiceDesk__clientId__c, BMCServiceDesk__clientLastName__c, BMCServiceDesk__closeDateTime__c, BMCServiceDesk__closeTasks__c, BMCServiceDesk__completedDate__c, BMCServiceDesk__contactType__c, BMCServiceDesk__dueDateTime__c, BMCServiceDesk__firstCallResolution__c, BMCServiceDesk__followUpDateTime__c, BMCServiceDesk__followUp__c, BMCServiceDesk__inactive__c, BMCServiceDesk__inc_console_detail_link__c, BMCServiceDesk__incidentDescription__c, BMCServiceDesk__incidentResolution__c, BMCServiceDesk__maximumDuration__c, BMCServiceDesk__note__c, BMCServiceDesk__openDateTime__c, BMCServiceDesk__outageFrom__c, BMCServiceDesk__outageTo__c, BMCServiceDesk__queueName__c, BMCServiceDesk__recommendedFixDateTime__c, BMCServiceDesk__respondedDateTime__c, BMCServiceDesk__responseDateTime__c, BMCServiceDesk__shortDescription__c, BMCServiceDesk__state__c, BMCServiceDesk__timeSpent__c, BMCServiceDesk__Total_Duration__c, Additional_Email_id__c, App_support_CAPA__c, App_support_RCA__c, ApprovalRejected__c, Autoclass_Project_Name__c, Corrective_action__c, Cube_Name__c, Database_name__c, Destination_server_GO_IT__c, Destination_server__c, Dimension_OLAP_Name__c, Domain_name_GO_IT__c, Domain_name__c, Duplicate_Case_Type__c, Expected_Demo_time__c, First_Assignment__c, First_respone_time__c, Folder_Name__c, Folder_path_GO_IT__c, Folder_path__c, IP_Details_GO_IT__c, IP_Details__c, Incident_Category__c, BMCServiceDesk__Deep_View__c, Incident_origin__c, Input_File_name__c, Input_Folder_name__c, Issue_escaped__c, Issue_escaped_by_field__c, Job_Name__c, Job__c, KEDB_Updated__c, Link_Address__c, Link_Adress__c, Link_Adress_jBPM__c, Link_Adresss_Autoclass__c, Lookup_file_name__c, Lookup_folder_name__c, Main_Table_Name__c, Measure_Name__c, Model_Type__c, OLA_End_Time__c, Password__c, Preventive_action__c, Tenant__c, Product__c, Reported_By__c, Resolution_Time__c, Root_Cause_analysis__c, Share_Outage_report_with_customer__c, Source_Server__c, Star_Schema_Name__c, Subject__c, URL_details_GO_IT__c, URL_details__c, Username__c, Utility_Name__c, Workaround_description__c, Workaround_provided__c, Workaround_time__c, is_Incident_Major__c, jBPM_ID__c, newQueueName__c, queueChangeCount__c, opsgenie_alias__c, Issue_Covered_in_L1_Automation__c, Case_Type__c, Work_Around_Provided__c, Resolution_Provided__c, QA_status__c, Remark_Caputered_By_Monitoring__c, ERT_Type__c, Issue_Escaped_ENGG__c, Target_Release_Date__c, Delivered_in_Release_Patch__c, RCA__c, Work_Around_Available__c, ENGG_Comments__c, ERT__c, Bug_ID__c, Issue_Covered_in_L2_Automation__c, Work_Around_Provided_Time__c, ERT_Retrospective__c, PMG_Priority__c, JIRA_Story__c, Assigned_To__c, Team__c, Opened_Date__c, Company__c, User_Name__c, Browser_Name_Version__c, Exact_Steps__c, Did_you_clear_Browser_cache_and_Cookies__c, Screenshot_attached_in_the_Ticket__c, Date_and_Time_when_issue_occurred__c, Original_Case_URL__c, Assignment_Level__c, BMCServiceDesk__Incorrect_category__c, BMCServiceDesk__Incorrect_owner__c, BMCServiceDesk__LockedRecordTimestamp__c, BMCServiceDesk__Queue__c, BMCServiceDesk__Reassigned_Count__c, BMCServiceDesk__isServiceRequest__c, Incident_Owner__c, Category_SSP__c, Additional_Details__c, Actual_Release_Date__c, Administrative_Request_Approved__c, Alert_Type__c, App_support_Capability_Counter__c, AppSupport_Follow_Up__c, AppSupport_resolve_Date_Time__c, Appsupport_Status__c, AppSupport_Start_Date_Time__c, AppSupport_Member__c, Awaiting_Update_RCA_on__c, Bugzilla_Rally_URL__c, Case_Type_AppSupport_c__c, Case_Sub_Type__c, Dupl_Incident_ID__c, Feature_Request_Status__c, Identification__c, Issue_can_be_reproduced_at_Support_Login__c, Major_functionality_is_impacted__c, Monitoring_Products__c, PMG_Comments__c, PMG_Status__c, SRE_Comments__c, Support_Team__c, Training_Action__c, Additional_Comments__c, Training_Comments__c, Training_Conducted_On__c, Training_Requested_On__c, Training_Scheduled_On__c, Type_of_Training__c, Duplicate_Ticket_URL__c, Captured_by_Monitoring__c, Monitoring_RCA_CAPA__c, Internal_ERT__c, Dynatrace_Findings__c, Account_Name_Copy__c, Target_Release_Number__c, Linked_Problem_Number__c, Esc_to_L3_on__c, AN__c, BMCServiceDesk__Approval_Status__c, Usability__c, TS_touched__c, App_Management_Touched__c, Prod_staging__c, ADay__c, AHour__c, In_Progress_Date__c, FRT__c, Test_AC_Name__c, Product_SSP__c, FRT_DD_HH_MM__c, AS_IP_Time__c, In_Time_Tech_Support__c, Out_Time_Tech_Support__c, TS_Difference__c, App_Support_In_Time__c, App_Support_Out_Time__c, AS_Total_Time__c, Demo_Support_In_Time__c, Demo_Support_Out_Time__c, DS_Total_Time__c, App_Management_In_Time__c, App_Management_Out_Time__c, App_Management_Total_Time__c, GO_DBA_In_Time__c, GO_DBA_Out_Time__c, GO_DBA_Total_Time__c, GO_Dev_In_Time__c, GO_Dev_Out_Time__c, GO_Dev_Total_Time__c, GO_DevSupport_In_Time__c, GO_DevSupport_Out_Time__c, GO_DevSupport_Total_Time__c, GO_IT_In_Time__c, GO_IT_Out_Time__c, GO_IT_Total_Time__c, L2_Autoclass_In_Time__c, L2_Autoclass_Out_Time__c, L2_Autoclass_Total_Time__c, P2P_Support_In_Time__c, P2P_Support_Out_Time__c, P2P_Support_Total_Time__c, Password_Manager_In_Time__c, Password_Manager_Out_Time__c, Password_Manager_Total_Time__c, PDT_In_Time__c, PDT_Out_Time__c, PDT_Total_Time__c, PDT_PMG_In_Time__c, PDT_PMG_Out_Time__c, PDT_PMG_Total_Time__c, PDT_RM_In_Time__c, PDT_RM_Out_Time__c, PDT_RM_Total_Time__c, PEG_In_Time__c, PEG_Out_Time__c, PEG_Total_Time__c, POD1_In_Time__c, POD1_Out_Time__c, POD1_Total_Time__c, RemedyConfig_In_Time__c, RemedyConfig_Out_Time__c, RemedyConfig_Total_Time__c, Zycus_Training_In_Time__c, Zycus_Training_Out_Time__c, Zycus_Training_Total_Time__c, GO_Integration_In_Time__c, GO_Integration_Out_Time__c, GO_Integration_Total_Time__c, Pilots_In_Time__c, Pilots_Out_Time__c, Pilots_Total_Time__c, Zycus_University_In_Time__c, Zycus_University_Out_Time__c, Zycus_University_Total_Time__c, POD2_In_Time__c, POD2_Out_Time__c, POD2_Total_Time__c, Monitoring_In_Time__c, Monitoring_Out_Time__c, Monitoring_Total_Time__c, GO_ENGG_In_Time__c, GO_ENGG_Out_Time__c, GO_ENGG_Total_Time__c, GD_RM_Total_Time__c, POD3_In_Time__c, POD3_Out_Time__c, POD3_Total_Time__c, Follow_up_1__c, Follow_up_2__c, Follow_up_3__c, Follow_up_1_Date__c, Follow_up_2_Date__c, Follow_up_3_Date__c, App_Management_Total_Time_hrs__c, App_Support_Total_Time_hrs__c, Demo_Support_Total_Time_hrs__c, GO_DBA_Total_Time_hrs__c, GO_DevSupport_Total_Time_hrs__c, GO_Dev_Total_Time_hrs__c, GO_ENGG_Total_Time_hrs__c, GO_Integration_Total_Time_hrs__c, GO_IT_Total_Time_hrs__c, L2_Autoclass_Total_Time_hrs__c, Monitoring_Total_Time_hrs__c, P2P_Support_Total_Time_hrs__c, Password_Manager_Total_Time_hrs__c, PDT_PMG_Total_Time_hrs__c, PDTRM_Total_Time_hrs__c, PDT_Total_Time_hrs__c, PEG_Total_Time_hrs__c, Pilots_Total_Time_hrs__c, POD1_Total_Time_hrs__c, POD2_Total_Time_hrs__c, POD3_Total_Time_hrs__c, RemedyConfig_Total_Time_hrs__c, Zycus_Training_Total_Time_hrs__c, Zycus_University_Total_Time_hrs__c, Tech_Support_Total_Time_hrs__c, SRE_L1__c, Product1__c, Escalated__c, ENGG_Analysis__c, Delivery_Priority__c, Module__c, Next_Update_Due__c, Next_Steps_Owner__c, Capability_Issue_Team1__c, Workaround_Provided1__c, TAM_Comments__c, WorkAround_Time1__c, First_Email_Sent__c, Next_Steps__c, Total_Time_Difference_Opened_Resolved__c, SRE_L2__c, Impact_On_Business__c, Business_Impact__c, Is_ERT__c, Ticket_Flow__c, Status_Change_Count__c, Toll_Completed__c, Note_For_Additional_Email_Id__c, Ticket_Last_Update__c, FRT_SLA_Status__c, FRT_Missed_Comment__c, Email_Sent_Count__c, Resolution_DateValue__c, Created_DateValue__c, Difference_Count__c, BMCServiceDesk__RF_TimeToClose__c, VAR__c, Target_Release_Train__c, VAR_Sent__c, rich_text__c, Capability_Issue_Team__c, Capability_marked_comment__c, Knowledge_Article_Count__c, Account_Account_Name__c, Sub_Product__c, TS_In_Time__c, TS_Out_Time__c, TeamT__c, BMCServiceDesk__RF_FKLayout__c, BMCServiceDesk__RF_LTEC__c, BMCServiceDesk__RF_SkipTriggerExecution__c, Assigned_To_Time_Capture__c, Age_Minutes__c, L1_Investigation_Pending__c, L2_Investigation_Pending__c, Assigned_L1__c, Unassigned_L1__c, Total_Time_L1_del__c, Assigned_L2__c, Unassigned_L2__c, Total_Time_L2_del__c, Assigned_L3__c, Unassigned_L3__c, Total_Time_L3_del__c, Trigger_Time_30__c, Review_Comments__c, Fix_provided_is_Validated__c, ETA_for_Deployment__c, ETA__c, Last_Modified_Update__c, Last_Modified_Update_Date_Time__c, ClosedMonth__c, L3_Team__c, Auto_Sanity__c, Deployment_Status_Comments__c, Issue_Escaped_Name__c, Weekend_Activity__c, L3_Dev_Time_Spent__c, L3_QATime_Spent__c, Deploy_By__c, L3_Start_Date_Time__c, L3_Resolve_Date_Time__c, Release_Number__c, Last_Updated_Age__c, Client_Confirmation__c, Capability_Issue_TeamTS__c, Tech_Support_Comment__c, L3_Dev_Assigned__c, L3_QA_Assigned__c, FCC_Description__c, Capability_Time_Stamp__c, RCA_and_CAPA_Acceptance__c, Region__c, classification__c, Sprint_Cycle__c, Problem_Ticket_Creation_Required__c, Edit_Date__c, app_support_ticket_flow__c, EditDatetime__c, P3Ageing__c, Problem_Ticket_to_be_Assigned_to__c, Reference_Problem_Ticket__c, New_Time_Difference_Opened_Resolved__c, App_support_Total_time__c, Tech_support_total_OLA__c, TAM_Total_OLA_time__c, App_Management_Total_OLA_time__c, App_support_Total_OLA_time__c, GO_IT_Total_OLA_time__c, GO_DBA_Total_OLA_time__c, GO_Dev_Total_OLA_time__c, App_Support_ticket_flow_count__c, PDT_Total_OLA_time__c, Time_Difference__c, TAM_total_time_hrs__c, Team_handle_Time__c, BMCServiceDesk__Categorization_Mode__c, BMCServiceDesk__RF_Attachments__c, BMCServiceDesk__RF_HasAttachments__c, BMCServiceDesk__RF_IntegrationData__c, Context__c, Sanity_Test_Case_Added__c, Row_Supplier_Support_In_Time__c, Common_Component__c, Row_Supplier_Support_Out_time__c, Row_Supplier_Support_total_time__c, Row_Supplier_Support_total_time_hrs__c, TAM_ANZ_In_time__c, TAM_ANZ_Out_time__c, TAM_ANZ_total_time__c, TAM_ANZ_total_timr_hrs__c, TAM_EMEA_In_time__c, TAM_EMEA_Out_time__c, TAM_EMEA_total_time__c, TAM_EMEA_total_time_hrs__c, TAM_SEA_In_time__c, TAM_SEA_Out_time__c, TAM_SEA_total_time__c, TAM_SEA_total_time_hrs__c, TAM_US_In_time__c, TAM_US_Out_time__c, TAM_US_total_time__c, TAM_US_total_time_hrs__c, Alert_Category__c, Present_in_Automation__c, RM_ID__c, L3_Assigned_To__c, Email_Listener__c, Esca__c, Severity_Change_Time__c, Regression__c, SLA_status__c, S_state__c, ITA_Initial_TAM_Analysis__c, LEN__c, Tenant_Region__c, Tenant_ID__c, Desc__c, Request_Count_req_min__c, Current_Response_Time__c, Baseline_ms__c, Percentage_Degrade_Failure__c, Linked_incident__c, PriorityName__c, Issue_Type__c, Team_DL__c, Env__c, AU__c, Entity_ID__c, Direction__c, Environment__c, Query_Type__c, Query_Value__c, Source_Product__c, Boolean__c, Sprint_for_Automation__c, Missed_In_L1_L2_Automation__c, Sub_Team__c, Injected__c, Automation_RCA__c, monitoring_impacted_users__c, PRIORVALUE__c, TENANT_NAME__c, Incident_Count__c, Sub_region__c, Prior_severity__c, prior_region__c, changed_severity_region__c, Created_date__c, Actual_Team__c, PDT_Resolution_Type__c, Date_of_creation__c
+                                         FROM BMCServiceDesk__Incident__c WHERE Id IN (Select VLSF_Link_Incident__c from Case) 
+                                         AND CALENDAR_YEAR(LastModifiedDate)=:year AND LastModifiedDate>=:dt
+                                         Order by LastModifiedDate DESC]);
+    }
+    
+    public void execute(Database.BatchableContext BC, List<bmcservicedesk__incident__c> scope){
+        Id caserecordId;
+        Id historicalId;
+        Set<Id> incidentIds = new Set<Id>();
+        Set<Id> caseIds = new Set<Id>();
+        Map<Id,Id>IncidentCaseMap=new Map<Id,Id>();
+        Map<Id, BMCServiceDesk__Incident__c> incidentMap = new Map<Id, BMCServiceDesk__Incident__c>();
+        
+        for (BMCServiceDesk__Incident__c incident : scope) {
+            incidentMap.put(incident.Id, incident);
+        }
+        List<Migration_Field_Mapping__mdt> fieldMappings = [SELECT MasterLabel, QualifiedApiName, Field_Mapping__c, Salesforce_Field__c, BMC_Field__c
+                                                            FROM Migration_Field_Mapping__mdt
+                                                            WHERE NOT ( MasterLabel like '% ph' OR MasterLabel like '% kh' OR MasterLabel like '% K' OR MasterLabel like '% P' OR MasterLabel like '% T')
+                                                           ];
+        
+        List<Case> casesToUpdate = [SELECT Id, CaseNumber, VLSF_Link_Incident__c FROM Case WHERE VLSF_Link_Incident__c IN :incidentMap.keySet()];
+        
+        List<VLSF_Case_Historical_Data__c> historicalDataList = [
+            SELECT Id, Name,VLSF_Link_Incident__c
+            FROM VLSF_Case_Historical_Data__c
+            WHERE VLSF_Link_Incident__c IN :incidentMap.keySet()
+        ];
+        
+        
+        Map<String, Schema.SObjectField> incidentFields = Schema.SObjectType.BMCServiceDesk__Incident__c.fields.getMap();
+        Map<String, Schema.SObjectField> caseFields = Schema.SObjectType.Case.fields.getMap();
+        Map<String, Schema.SObjectField> historicalDataFields = Schema.SObjectType.VLSF_Case_Historical_Data__c.fields.getMap();
+        
+        
+        for (Case caseToUpdate : casesToUpdate) {
+            
+            IncidentCaseMap.put(caseToUpdate.VLSF_Link_Incident__c, caseToUpdate.Id);
+            BMCServiceDesk__Incident__c relatedIncident = incidentMap.get(caseToUpdate.VLSF_Link_Incident__c);
+            
+            if (relatedIncident != null) {
+                caserecordId=caseToUpdate.Id;
+                for (Migration_Field_Mapping__mdt mapping : fieldMappings) {
+                    if (mapping.Field_Mapping__c == 'Case') {
+                        String bmcField = mapping.BMC_Field__c;
+                        String caseField = mapping.Salesforce_Field__c;
+                        Schema.DescribeFieldResult caseFieldDescribe = caseFields.get(caseField).getDescribe();
+                        String caseFieldType = String.valueOf(caseFieldDescribe.getType());
+                        
+                        // Set the case field value from the incident field value
+                        if (relatedIncident.get(bmcField) != null) {
+                            if (caseFieldType == 'STRING' || caseFieldType == 'TEXTAREA' || caseFieldType == 'URL' || caseFieldType == 'EMAIL') {
+                                caseToUpdate.put(caseField, String.valueOf(relatedIncident.get(bmcField)));
+                            } else if (caseFieldType == 'BOOLEAN') {
+                                caseToUpdate.put(caseField, Boolean.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'INTEGER') {
+                                caseToUpdate.put(caseField, Integer.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'DOUBLE' || caseFieldType == 'CURRENCY' || caseFieldType == 'PERCENT') {
+                                caseToUpdate.put(caseField, Double.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'DATE') {
+                                caseToUpdate.put(caseField, Date.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'DATETIME') {
+                                caseToUpdate.put(caseField, DateTime.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'TIME') {
+                                caseToUpdate.put(caseField, DateTime.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (caseFieldType == 'PICKLIST' || caseFieldType == 'MULTIPICKLIST') {
+                                caseToUpdate.put(caseField, String.valueOf(relatedIncident.get(bmcField)).trim());  // Assumes the value is valid for the picklist
+                            } else if (caseFieldType == 'REFERENCE') {
+                                caseToUpdate.put(caseField, Id.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else {
+                                caseToUpdate.put(caseField, relatedIncident.get(bmcField));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (VLSF_Case_Historical_Data__c historicalDataForCase : historicalDataList) {
+            BMCServiceDesk__Incident__c relatedIncident = incidentMap.get(historicalDataForCase.VLSF_Link_Incident__c);
+            
+            if (relatedIncident != null) {
+                historicalId=historicalDataForCase.Id;
+                for (Migration_Field_Mapping__mdt mapping : fieldMappings) {
+                    if (mapping.Field_Mapping__c == 'CH' && mapping.MasterLabel.contains(' ch')) {
+                        String bmcField = mapping.BMC_Field__c;
+                        String caseField = mapping.Salesforce_Field__c;
+                        Schema.DescribeFieldResult historicalFieldDescribe = historicalDataFields.get(caseField).getDescribe();
+                        String historicalFieldType = String.valueOf(historicalFieldDescribe.getType());
+                        
+                        if (relatedIncident.get(bmcField) != null) {
+                            if (historicalFieldType == 'STRING' || historicalFieldType == 'TEXTAREA' || historicalFieldType == 'URL' || historicalFieldType == 'EMAIL') {
+                                historicalDataForCase.put(caseField, String.valueOf(relatedIncident.get(bmcField)));
+                            } else if (historicalFieldType == 'BOOLEAN') {
+                                historicalDataForCase.put(caseField, Boolean.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'INTEGER') {
+                                historicalDataForCase.put(caseField, Integer.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'DOUBLE' || historicalFieldType == 'CURRENCY' || historicalFieldType == 'PERCENT') {
+                                historicalDataForCase.put(caseField, Double.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'DATE') {
+                                historicalDataForCase.put(caseField, Date.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'DATETIME') {
+                                historicalDataForCase.put(caseField, DateTime.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'TIME') {
+                                historicalDataForCase.put(caseField, DateTime.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else if (historicalFieldType == 'PICKLIST' || historicalFieldType == 'MULTIPICKLIST') {
+                                historicalDataForCase.put(caseField, String.valueOf(relatedIncident.get(bmcField)));  // Assumes the value is valid for the picklist
+                            } else if (historicalFieldType == 'REFERENCE') {
+                                historicalDataForCase.put(caseField, Id.valueOf(String.valueOf(relatedIncident.get(bmcField))));
+                            } else {
+                                historicalDataForCase.put(caseField, relatedIncident.get(bmcField));
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
+        
+        
+        if(!casesToUpdate.isEmpty()){
+            Database.SaveResult[] newCaseHisSave = Database.update(casesToUpdate, false);
+            List<String> allErrors = new List<String>();
+            List<String> errorContexts = new List<String>();
+            Integer errorCounter=0;
+            String listOfErrorMessagesHis = '';
+            // Iterate through each returned result
+            For(Database.SaveResult srList: newCaseHisSave){
+                counterForErrorMessages = counterForErrorMessages + 1;
+                if (srList.isSuccess()){
+                    // Operation was successful, so get the ID of the record that was processed
+                    //System.debug('Successfully updated case. Case ID: ' + srList);
+                } else{
+                    for(Database.Error err : srList.getErrors()) {
+                        System.debug('err 152:::'+err);
+                        System.debug('err 152:::'+err.getFields());
+                        errorContexts.add(err.getMessage());
+                        errorCounter= errorCounter + 1;
+                        listOfErrorMessagesHis = 'recordId : '+caserecordId+': {"errorMesage" : '+err.getFields()+' : '+err.getMessage()+'"},';
+                    }
+                    //System.debug('Case fields that affected this error: ' + srList.getErrors());
+                    allErrors.add(listOfErrorMessagesHis);
+                    //errorContexts.add(JSON.serialize(srList.getErrorMessage()));
+                }   
+            }
+            if (!allErrors.isEmpty()) {
+                String stringValues = JSON.serializePretty(allErrors);
+                String removeSlash = stringValues.replaceAll('\\\\', '').replaceAll('\\"', '"').replaceAll('\\{', '{').replaceAll('\\}', '}');
+                VLSF_ExceptionLog.ErrorLogMigration( JSON.serialize(errorContexts),JSON.serialize(allErrors),errorCounter);
+            }
+            
+        }
+        for (VLSF_Case_Historical_Data__c Hdata:historicalDataList ){
+            System.debug('Ids'+Hdata.Id);
+        }
+        if(!historicalDataList.isEmpty()){
+            Database.SaveResult[] newCaseHisSave = Database.Update(historicalDataList, false);
+            List<String> allErrors = new List<String>();
+            List<String> errorContexts = new List<String>();
+            Integer errorCounter=0;
+            String listOfErrorMessagesHis = '';
+            // Iterate through each returned result
+            For(Database.SaveResult srList: newCaseHisSave){
+                counterForErrorMessages = counterForErrorMessages + 1;
+                if (srList.isSuccess()){
+                    // Operation was successful, so get the ID of the record that was processed
+                    //System.debug('Successfully updated case. Case ID: ' + srList);
+                } else{
+                    for(Database.Error err : srList.getErrors()) {
+                        System.debug('err 152:::'+err);
+                        System.debug('err 152:::'+err.getFields());
+                        errorContexts.add(err.getMessage());
+                        errorCounter= errorCounter + 1;
+                        listOfErrorMessagesHis = 'recordId : '+historicalId+': {"errorMesage" : '+err.getFields()+' : '+err.getMessage()+'"},';
+                    }
+                    //System.debug('Case fields that affected this error: ' + srList.getErrors());
+                    allErrors.add(listOfErrorMessagesHis);
+                    //errorContexts.add(JSON.serialize(srList.getErrorMessage()));
+                }   
+            }
+            if (!allErrors.isEmpty()) {
+                String stringValues = JSON.serializePretty(allErrors);
+                String removeSlash = stringValues.replaceAll('\\\\', '').replaceAll('\\"', '"').replaceAll('\\{', '{').replaceAll('\\}', '}');
+                VLSF_ExceptionLog.ErrorLogMigration( JSON.serialize(errorContexts),JSON.serialize(allErrors),errorCounter);
+            }
+            
+        }
+        
+        
+        
+    }
+    
+    public void finish(Database.BatchableContext BC){
+        // No post-processing needed
+    }
+    
+}
