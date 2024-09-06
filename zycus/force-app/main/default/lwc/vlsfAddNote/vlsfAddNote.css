@@ -1,0 +1,32 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    color: #333;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+
+    .slds-size_1-of-1,
+    .slds-medium-size_1-of-2 {
+        display: none;
+    }
+
+    .slds-size_1-of-1:nth-child(-n+3),
+    .slds-medium-size_1-of-2:nth-child(-n+6) {
+        display: block;
+    }
+}

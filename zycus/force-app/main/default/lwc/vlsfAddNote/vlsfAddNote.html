@@ -1,0 +1,152 @@
+<template>
+
+	<template if:true={loaded}>
+		<article class="slds-card slds-card_boundary">
+			<div class="slds-card__header slds-grid">
+				<header class="slds-media slds-media_center slds-has-flexi-truncate">
+					<div class="slds-media__figure">
+						<lightning-icon icon-name="standard:note" alternative-text="Event"></lightning-icon>
+					</div>
+					<div class="slds-media__body">
+						<h2 class="slds-card__header-title">
+							<span>Notes</span>
+						</h2>
+					</div>
+
+					<div class="slds-no-flex">
+						<lightning-button variant="brand" label="New" title="Create a New Note" onclick={openModal}
+							class="slds-m-left_x-small"></lightning-button>
+					</div>
+				</header>
+			</div>
+			<template if:true={showNotes}>
+				<template if:true={caseNotes}>
+					<hr class="slds-m-top_none">
+					<div class="slds-feed">
+						<ul class="slds-feed__list">
+							<template for:each={caseNotes} for:item="note">
+								<li key={note.Id} class="">
+									<article class="slds-post">
+										<header class="slds-media">
+											<div class="slds-media__figure">
+												<lightning-icon icon-name="action:user" alternative-text="user"
+													size="x-small" title="x-small size">
+												</lightning-icon>
+											</div>
+											<div class="slds-media__body slds-m-bottom--x-small">
+												<div class="slds-grid">
+													<!-- name goes here -->
+													<p href="#" title={note.Title} data-title={note.VLSF_Title__c}>
+														{note.VLSF_Title__c}</p>
+													&nbsp;&nbsp;-&nbsp;&nbsp;
+													<!-- title goes here -->
+													<p href="#" class="slds-col" title={note.Owner.Name}>
+														{note.Owner.Name}</p>
+													<div class="lgc-bg">
+														<lightning-button-menu alternative-text="Show menu"
+															menu-alignment="right" icon-size="small"
+															icon-name="utility:down" class="slds-m-left_xx-large">
+															<lightning-menu-item value="edit" data-noteid={note.Id}
+																data-title={note.VLSF_Title__c}
+																data-description={note.VLSF_Description__c}
+																onclick={navigateToRecordEditPage} label="Edit">
+															</lightning-menu-item>
+															<lightning-menu-item value="delete" data-noteid={note.Id}
+																onclick={deleteSelectednote} label="delete">
+															</lightning-menu-item>
+														</lightning-button-menu>
+													</div>
+												</div>
+												<p class="slds-text-body_small">
+													<!-- created date goes here -->
+													<lightning-formatted-date-time value={note.CreatedDate}
+														year="numeric" month="short" day="numeric" hour="2-digit"
+														minute="2-digit"></lightning-formatted-date-time>
+												</p>
+											</div>
+										</header>
+										<div class="slds-post__content slds-text-longform">
+											<!-- comment body goes here -->
+											<p style="overflow-wrap: break-word;"
+												data-description={note.VLSF_Description__c}> {note.VLSF_Description__c}
+											</p>
+										</div>
+										<footer class="slds-post__footer">
+										</footer>
+									</article>
+								</li>
+							</template>
+						</ul>
+					</div>
+					<hr class="slds-m-vertical_small">
+					<div class="slds-m-around--medium">
+						<c-pagination records={totalNotes} record-size="4" onupdate={updateContentHandler}>
+						</c-pagination>
+					</div>
+				</template>
+			</template>
+			<template if:false={showNotes}>
+				<template if:false={caseNotes}>
+					<p>No Notes found.</p>
+				</template>
+			</template>
+		</article>
+
+
+		<!-- Modal for adding new content -->
+		<template if:true={isModalOpen}>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Note</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+						<lightning-input label="Title" value={subject} onchange={handleSubjectChange} maxlength="220">
+						</lightning-input>
+						<br>
+						<lightning-textarea name="decription" label="Description" value={description}
+							onchange={handleDescriptionChange} placeholder="Add description" maxlength="100000">
+						</lightning-textarea>
+					</div>
+					<footer class="slds-modal__footer">
+						<!-- Save and Close buttons -->
+						<lightning-button label="Save" onclick={saveContent} variant="brand"></lightning-button>
+						&nbsp;&nbsp;
+						<lightning-button label="Close" onclick={closeModal}></lightning-button>
+					</footer>
+				</div>
+			</section>
+		</template>
+		<template if:true={isUpdateModal}>
+			<div class="slds-backdrop slds-backdrop_open"></div>
+			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+				aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+				<div class="slds-modal__container">
+					<header class="slds-modal__header">
+						<h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">New Note</h2>
+					</header>
+					<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+						<lightning-input label="Title" value={updatetitle} onchange={handleUpdateSubjectChange}
+							maxlength="220"></lightning-input>
+						<br>
+						<lightning-textarea name="decription" label="Description" value={updatedescription}
+							onchange={handleUpdateDescriptionChange} placeholder="Add description" maxlength="100000">
+						</lightning-textarea>
+					</div>
+					<footer class="slds-modal__footer">
+						<!-- Save and Close buttons -->
+						<lightning-button label="Save" onclick={updateContent} variant="brand"></lightning-button>
+						&nbsp;&nbsp;
+						<lightning-button label="Close" onclick={closeupdateModal}></lightning-button>
+					</footer>
+				</div>
+			</section>
+		</template>
+	</template>
+	<template if:false={loaded}>
+		<lightning-spinner alternative-text="Loading"></lightning-spinner>
+	</template>
+
+</template>
